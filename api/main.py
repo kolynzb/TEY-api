@@ -1,26 +1,14 @@
 from fastapi import FastAPI
-from pydantic import BaseModel
-from typing import Optional
+from todo import todo_router
 
+# Instantiate fast API
 app = FastAPI()
 
-class Item(BaseModel):
-    id:int
-    name:str
-    description:str
-    price:int
-    on_offer:bool
-
-@app.get('/')
-def index():
-    return {"message":"Hello World?"}
 
 
-@app.get('/greet/{name}')
-def great_name(name):
-    return {"message":f"Hello  {name}"}
 
+@app.get("/")
+async def say_hello() -> dict: 
+       return {"message": "Welcome to the East Yard"}
 
-@app.put('/item/{item_id}')
-def update_item(item_id:int,item:Item):
-    return {"name":Item.name,"description":Item.description}
+app.include_router(todo_router)
